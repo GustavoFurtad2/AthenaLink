@@ -52,7 +52,7 @@ namespace Server.Controllers
 			return Ok();
 		}
 
-		[HttpPost("{token}/version")]
+		[HttpGet("{token}/version")]
 		public IActionResult GetVersion(string token)
 		{
 			Project project = _service.Get(token);
