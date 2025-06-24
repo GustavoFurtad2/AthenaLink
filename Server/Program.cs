@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ProjectsService>();
+builder.Services.AddSingleton<ProjectsService>();
 
 var app = builder.Build();
 
