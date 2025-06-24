@@ -1,0 +1,49 @@
+﻿@page "/"
+@using Shared.Models;
+@inject HttpClient httpClient
+
+<PageTitle>Home</PageTitle>
+
+<h1>Token: @token</h1>
+
+<button @onclick="UpdatePs2" class="btn btn-primary">Atualizar o p ési dois: @res</button>
+
+@code {
+
+	Project project = new();
+
+	public string? token;
+
+	public string? res;
+
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		string api = "api/projects/";
+
+		HttpResponseMessage response = await httpClient.PostAsync(api + "new", null);
+
+		var json = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+
+		if (response.IsSuccessStatusCode)
+		{
+			if (json != null && json.TryGetValue("token", out string newToken))
+			{
+				token = newToken;
+			}
+
+		}
+		else
+		{
+			var token = await response.Content.ReadAsStringAsync();
+			Console.WriteLine($"Erro: {response.StatusCode}, resposta: {token}");
+		}
+
+	}
+
+	public async Task UpdatePs2()
+	{
+		
+	}
+}
