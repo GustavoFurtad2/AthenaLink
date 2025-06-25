@@ -68,6 +68,7 @@ namespace Server.Controllers
 		[HttpGet("{token}/should-update")]
 		public IActionResult ShouldUpdate(string token)
 		{
+
 			Project project = _service.Get(token);
 
 			if (project == null)

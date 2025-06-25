@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Text;
 @using Shared.Models;
 @inject HttpClient httpClient
 
@@ -6,8 +7,13 @@
 
 <h1>Token: @token</h1>
 
+Código
+<InputText class="form-control" @bind-Value="editingCode"></InputText>
+<BR />
 <button @onclick="UpdatePs2" class="btn btn-primary">Atualizar o p ési dois: @res</button>
 
+<br />
+@sucesso
 @code {
 
 	Project project = new();
@@ -16,11 +22,13 @@
 
 	public string? res;
 
+	public string editingCode = string.Empty;
+	public string sucesso = string.Empty;
+
+	string api = "api/projects/";
 
 	protected override async Task OnInitializedAsync()
 	{
-
-		string api = "api/projects/";
 
 		HttpResponseMessage response = await httpClient.PostAsync(api + "new", null);
 
@@ -44,6 +52,18 @@
 
 	public async Task UpdatePs2()
 	{
-		
+
+		HttpContent content = new StringContent(editingCode, Encoding.UTF8, "text/plain");
+
+		HttpResponseMessage response = await httpClient.PostAsync(api + token + "/main.js", content);
+
+		if (response.IsSuccessStatusCode)
+		{
+			sucesso = "Sucesso";
+		}
+		else
+		{
+			sucesso = "not sucesso";
+		}
 	}
 }
